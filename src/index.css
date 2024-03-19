@@ -1,0 +1,105 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  
+  .navcontainer{
+    @apply flex px-4 py-1 rounded-lg my-4 cursor-pointer items-center gap-4 hover:bg-white  mx-auto;
+  }
+  .navlink{
+    @apply text-base hidden md:block text-white group-hover:text-main
+  }
+  .active{
+    @apply bg-white
+  }
+  .activelink{
+    @apply text-main stroke-main
+    
+  }
+  .sh{
+    box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.402);
+  }
+  .error{
+    @apply border-red-600 placeholder:text-red-600
+  }
+}
+
+:root {
+  font-family: "Poppins",sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  min-height: 500px;
+
+  color-scheme: light dark;
+  color: black;
+  overflow: hidden;
+  height: 100dvh;
+  background-color: white;
+  
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+
+input[type="file"]{
+  color: transparent;
+  
+}
+
+.bg{
+  background-image: url('./assets/image/bg.png');
+
+}
+
+
+::-webkit-scrollbar{
+  background-color: white;
+  width: 18px;
+  
+}
+
+.speacialScroll::-webkit-scrollbar{
+  background-color: transparent;
+  width: 18px;
+  
+
+  
+  
+}
+
+.outLine{
+  outline: 1.8px solid ;
+  outline-color: #3C615A;
+}
+
+.speacialScroll::-webkit-scrollbar-thumb{
+  background-color: #dddddd;
+  border-radius: 25px;
+  border: 6px solid white;
+
+  
+}
+.speacialScroll::-webkit-scrollbar-corner{
+  display: none;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+
+
+::-webkit-scrollbar-thumb{
+  background-color: #3C615A;
+  border: 5px solid white;
+  border-radius: 15px;
+  
+  
+}
