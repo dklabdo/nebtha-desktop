@@ -3,38 +3,51 @@ import { AppContext } from "../AppProvider";
 import def from "../assets/image/default-image.jpg";
 import { maladieChronique, pathologie } from "../Components/Data";
 import { Button } from "@material-tailwind/react";
+import NavBar from "../Components/NavBar";
 
-function AddProduct() {
-  const {url, seturl,iSproductAddPending,  HandleAddProductSubmit, file, setfile } =
+function ProductModifie() {
+  const {urlToModifie, seturlToModifie,iSModifieProductPending,HandleModifieProductSubmit,CurrentProductToModifie } =
     useContext(AppContext);
+  const {Image,ProductName,ProductScientificName,ProductArabicName,Productdesc,Indication,ContreIndication,Propriete,ModeUtilisation,Precaution,aromatherapie,epicerie} = CurrentProductToModifie;
+  console.log(ProductName);
+  
+  const [imagefile,setimagefile] = useState(null)
   function HandleDrop(e) {
     e.preventDefault();
     const file = e.dataTransfer.files[0];
-   
-    setfile(file);
+    setimagefile(file);
   }
+
   function HandleFileChange(e) {
     e.preventDefault();
     const file = e.target.files[0];
-    
-    setfile(file);
+    setimagefile(file);
   }
+
   useEffect(() => {
-    if (file) {
+    if (imagefile) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        seturl(reader.result);
+        seturlToModifie(reader.result)
+        
         
       };
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(imagefile);
     }
-  }, [file]);
+  }, [imagefile]);
+
+  
+  
+
+ 
 
   return (
     <>
       {
         <div className="px-8 lg:px-24 py-6 h-screen overflow-y-scroll w-full flex flex-col ">
-          <form onSubmit={(e)=>HandleAddProductSubmit(e)}>
+      <NavBar searchBar={false} display={false} link="product" />
+
+          <form onSubmit={(e)=>HandleModifieProductSubmit(e,CurrentProductToModifie._id)}>
           <div className="flex gap-8 ">
             <div className="flex flex-col   w-fit ">
               <div
@@ -43,7 +56,7 @@ function AddProduct() {
                 className="cursor-move w-72 h-72 flex justify-center items-center border-dashed mb-2 mt-8 rounded-2xl border-2 border-main"
               >
                 <img
-                  src={url == null ? def : url}
+                  src={urlToModifie == null ? Image : urlToModifie}
                   className="object-contain w-full rounded-2xl"
                 />
               </div>
@@ -67,65 +80,69 @@ function AddProduct() {
                 name="ProductName"
                 label="Nom du prouduit"
                 placeholder="zinginber"
+                val={ProductName}
+                
               />
               <InputField
                 label="Nom scietific du prouduit"
                 placeholder="zinginber"
                 name="ProductScientificName"
                 type="text"
+                val={ProductScientificName}
               />
               <InputField
                 type="text"
                 name="ProductArabicName"
                 label="اسم المنتج"
                 placeholder="الزنجبيل"
+                val={ProductArabicName}
               />
-              <InputField
-                type="number"
-                name="Price"
-                label="Prix"
-                placeholder="3500DA"
-              />
+              
             </div>
           </div>
           <div className="w-full my-10 flex gap-6  ">
-            <ChoiceMenu id="c1" state={true} label="Ajouter des indication" />
+            <ChoiceMenu val={Indication} id="c1" state={true} label="Ajouter des indication" />
             <ChoiceMenu
               id="c2"
               state={false}
+              val={ContreIndication}
               label="Ajouter des contre indication"
             />
           </div>
           <div className="text-base my-4 flex justify-between px-3" >
             <h2>Category :</h2>
             
-            <ChekBox label="Aromathérapie" name="aromatherapie" />
-            <ChekBox label="Épicerie" name="epicerie" />
+            <ChekBox val={aromatherapie} label="Aromathérapie" name="aromatherapie" />
+            <ChekBox val={epicerie} label="Épicerie" name="epicerie" />
           </div>
           <div className="w-full grid-cols-2  gap-6  py-2">
             <TextArea
               name="Productdesc"
               label="Description du prouduit"
               placeholder=""
+              val={Productdesc}
             />
-            <TextArea name="Propriete" label="Proprietes" placeholder="" />
+            <TextArea val={Propriete} name="Propriete" label="Proprietes" placeholder="" />
             <TextArea
               name="ModeUtilisation"
               label="Mode d'utilisation"
               placeholder=""
+              val={ModeUtilisation}
             />
             <TextArea
               name="Precaution"
               label="precautions d'emploi"
               placeholder=""
+              val={Precaution}
             />
           </div>
           <div className="flex my-2">
-            {!iSproductAddPending ? (<button
+            {!iSModifieProductPending ? (<button
               type="submit"
+
               className="bg-main text-white px-6 py-3 rounded-full my-6  mx-auto "
             >
-              Ajouter le prouduit
+              Modifier le prouduit
             </button>) : (<Button className="rounded-full px-20  w-fit mx-auto  text-base py-4 my-6 font-medium " loading={true}>
              <></> 
             </Button>)}
@@ -139,8 +156,10 @@ function AddProduct() {
   );
 }
 
-function InputField({ name, type, placeholder, label }) {
-  const { HandleAddProduct } = useContext(AppContext);
+function InputField({ name, type, placeholder, label , val }) {
+  const {HandleModifieProduct} = useContext(AppContext);
+  
+    
   return (
     <div className="-space-y-4 h-fit my-2 w-full flex flex-col ">
       <label className="ml-4 px-2 my-1 bg-white z-10 w-fit text-main">
@@ -150,28 +169,34 @@ function InputField({ name, type, placeholder, label }) {
         className="py-[10px] pl-4 border-2 outline-none focus:border-main border-black/50 bg-white px-2 rounded-full"
         placeholder={placeholder}
         type={type}
-        onChange={(e) => HandleAddProduct(e.target)}
+        onChange={(e) => HandleModifieProduct(e.target)}
         name={name}
         required
+        value={val}
+        
       />
     </div>
   );
 }
 
-function ChekBox({ name, label }) {
-  const { HandleChekBoxChange } = useContext(AppContext);
-
+function ChekBox({val, name, label }) {
+  const { HandleChekBoxModifyChange } = useContext(AppContext);
+  const [checked,setchecked] = useState(val)
   return (
     <div className="flex  items-center gap-2">
-      <input onChange={(e)=>HandleChekBoxChange(e.target)} className="border-2  border-main w-5 h-5 rounded-full checked:bg-main  appearance-none" name={name} id={label} type="checkbox" />
+      <input onChange={(e)=>{
+        HandleChekBoxModifyChange(e.target);
+        setchecked(!checked);
+      }} className="border-2  border-main w-5 h-5 rounded-full checked:bg-main  appearance-none" name={name} id={label} type="checkbox"
+      checked={checked} />
 
       <label className="text-base cursor-pointer text-main" htmlFor={label}>{label}</label>
     </div>
   );
 }
 
-function TextArea({ name, placeholder, label }) {
-  const { HandleAddProduct } = useContext(AppContext);
+function TextArea({val, name, placeholder, label }) {
+  const { HandleModifieProduct } = useContext(AppContext);
   return (
     <div className="-space-y-4  my-2  flex flex-col ">
       <label className="ml-4 px-2 my-1 bg-white z-10 w-fit text-main">
@@ -182,26 +207,28 @@ function TextArea({ name, placeholder, label }) {
         placeholder={placeholder}
         name={name}
         required
-        onChange={(e) => HandleAddProduct(e.target)}
+        onChange={(e) => HandleModifieProduct(e.target)}
+        value={val}
       />
     </div>
   );
 }
 
-function ChoiceMenu({ label, state, id }) {
-  const [selected, setselected] = useState([]);
-  const { product } = useContext(AppContext);
-  function HandleSelect(val) {
-    if (!selected.includes(val + 1)) {
-      selected.push(val + 1);
-    } else if (selected.includes(val + 1)) {
-      selected.splice(selected.indexOf(val + 1), 1);
+function ChoiceMenu({val, label, state, id }) {
+  const [selected, setselected] = useState(val);
+  const [render,setrender] = useState(false)
+  function HandleSelect(value) {
+    if (!selected.includes(value + 1)) {
+      selected.push(value + 1);
+    } else if (selected.includes(value + 1)) {
+      selected.splice(selected.indexOf(value + 1), 1);
     }
     setselected(selected);
     if (state) {
-      product.Indication = selected.sort();
+      setselected(selected.sort())
     } else {
-      product.ContreIndication = selected.sort();
+      setselected(selected.sort())
+
     }
   }
 
@@ -227,10 +254,15 @@ function ChoiceMenu({ label, state, id }) {
                   <input
                     onChange={() => {
                       HandleSelect(index);
+                      setrender(!render)
                     }}
                     className={` border-2  border-main w-4 h-4 rounded-full checked:bg-main  appearance-none`}
                     id={`${id + index}`}
                     type="checkbox"
+                    checked={selected.includes(index + 1) ? true : false}
+                    
+
+
                   />
                   <label
                     className="cursor-pointer py-2 h-full w-full"
@@ -250,10 +282,15 @@ function ChoiceMenu({ label, state, id }) {
                   <input
                     onChange={() => {
                       HandleSelect(index);
+                      setrender(!render)
                     }}
                     className={` border-2  border-main w-4 h-[15px] rounded-full checked:bg-main  appearance-none`}
                     id={`${id + index}`}
                     type="checkbox"
+                    checked={selected.includes(index + 1) ? true : false}
+
+
+
                   />
                   <label
                     className="cursor-pointer py-2 h-full w-full"
@@ -269,4 +306,4 @@ function ChoiceMenu({ label, state, id }) {
   );
 }
 
-export default AddProduct;
+export default ProductModifie;

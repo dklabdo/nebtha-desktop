@@ -3,24 +3,18 @@ import { useEffect, useState, useContext } from "react";
 import { AppContext } from "../AppProvider";
 import { maladieChronique } from "../Components/Data";
 import { pathologie } from "../Components/Data";
+import NavBar from "../Components/NavBar";
 function ProductInfo() {
   const { CurrentProductInfoDisplay } = useContext(AppContext);
-  const [url, seturl] = useState(null);
-  console.log(CurrentProductInfoDisplay);
-  useEffect(() => {
-    if (CurrentProductInfoDisplay.Image) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        seturl(reader.result);
-      };
-      reader.readAsDataURL(CurrentProductInfoDisplay.Image);
-    }
-  }, []);
+  
+  console.log(CurrentProductInfoDisplay.Image);
+  
   return (
-    <div className="w-full px-10 overflow-y-auto h-screen py-6">
+    <div className="w-full  px-10 overflow-y-auto h-screen py-2">
+      <NavBar searchBar={false} display={false} link="product" />
       <div className="w-full items-center   flex gap-10 p-6">
         <div className="border-2 border-main rounded-3xl w-[50%] h-80 flex">
-          <img src={url} className="m-auto   object-contain rounded-3xl" alt="..." />
+          <img src={CurrentProductInfoDisplay.Image} className="m-auto   object-contain rounded-3xl" alt="..." />
         </div>
 
         <div className=" w-full px-8 py-6">
@@ -31,13 +25,16 @@ function ProductInfo() {
           <h2 className="font-light text-lg text-black">
             {CurrentProductInfoDisplay.ProductArabicName}{" "}
           </h2>
-          <h2 className="font-light text-lg text-black">
+          <h2 className={`font-light text-lg text-black ${CurrentProductInfoDisplay.Promotion && "line-through text-black/50 text-base"}`}>
             {CurrentProductInfoDisplay.Price} DA{" "}
+          </h2>
+          <h2 className={`text-lg font-medium ${!CurrentProductInfoDisplay.Promotion && 'hidden'}`} >
+          {CurrentProductInfoDisplay.PromotionPrice} DA{" "}
           </h2>
           <h1 className="font-semibold text-base text-main">Deatails :</h1>
 
           <p className="my-4 font-light text-base text-black">
-            {CurrentProductInfoDisplay.ProductDesc}{" "}
+            {CurrentProductInfoDisplay.Productdesc}{" "}
           </p>
         </div>
       </div>

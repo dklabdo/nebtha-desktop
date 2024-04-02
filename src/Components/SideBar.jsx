@@ -1,17 +1,59 @@
 import React, { useState } from "react";
 import { useContext } from "react";
 import { AppContext } from "../AppProvider";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import logo from "../assets/image/logo2.png";
-import logo2 from "../assets/image/logo4.svg";
+import logo2 from "../assets/image/logo-entreprice.svg";
 import out from "../assets/image/icon/out.svg";
 import { useNavigate } from "react-router-dom";
+
 function SideBar() {
   const { HandleLogOut } = useContext(AppContext);
   const navigate = useNavigate();
-  const [selected, setseledcted] = useState(0);
+
+  function CurrentLink(value) {
+    switch (value) {
+      case "/addProduct":
+        return 1;
+        break;
+      case "/home":
+        return 2;
+        break;
+      case "/product":
+        return 3;
+        break;
+      case "/stock":
+        return 4;
+        break;
+      case "/client":
+        return 5;
+        break;
+      case "/order":
+        return 6;
+        break;
+      case "/sales":
+        return 7;
+        break;
+      case "/company":
+        return 8;
+        break;
+      case "/ProductInfo":
+        return 7;
+        break;
+      case "/modifieProduct":
+        return 8;
+        break;
+
+      default:
+        return 0;
+        break;
+    }
+  }
+  const location = useLocation();
+
+  const [selected, setseledcted] = useState(CurrentLink(location.pathname));
   return (
-    <div className="md:min-w-72 w-20 relative sh flex flex-col items-center bg-main h-screen">
+    <div className="md:min-w-[290px]  w-20 relative sh flex flex-col items-center bg-main h-screen">
       <img className="hidden md:block w-48 mt-10" src={logo} alt="..." />
       <img className="w-10 md:hidden mt-10" src={logo2} alt="..." />
       <div className="w-[80%] my-12">
@@ -19,7 +61,10 @@ function SideBar() {
           className={
             selected == 1 ? "navcontainer group active" : "navcontainer group"
           }
-          onClick={() => {setseledcted(1);navigate('/addProduct')}}
+          onClick={() => {
+            setseledcted(1);
+            navigate("/addProduct");
+          }}
         >
           <svg
             role="img"
@@ -56,7 +101,10 @@ function SideBar() {
           className={
             selected == 2 ? "navcontainer group active" : "navcontainer group"
           }
-          onClick={() => {setseledcted(2);navigate('/home')}}
+          onClick={() => {
+            setseledcted(2);
+            navigate("/home");
+          }}
         >
           <svg
             role="img"
@@ -94,7 +142,47 @@ function SideBar() {
           className={
             selected == 3 ? "navcontainer group active" : "navcontainer group"
           }
-          onClick={() => {setseledcted(3);navigate('/product')}}
+          onClick={() => {
+            setseledcted(3);
+            navigate("/product");
+          }}
+        >
+          <svg
+            width="22"
+            height="30"
+            stroke="#fff"
+            viewBox="0 0 22 30"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className={
+              selected == 3
+                ? "w-7 group-hover:stroke-main activelink"
+                : "w-7 group-hover:stroke-main"
+            }
+          >
+            <path
+              d="M20.4512 2.66785C20.4858 3.05723 20.519 3.48262 20.5479 3.93903C20.6991 6.32048 20.7358 9.53283 20.2837 12.8723C19.3758 19.5773 16.5406 26.5392 9.03241 28.6377C7.99063 28.715 7.25174 28.5629 6.72927 28.3358C6.19992 28.1057 5.84238 27.7772 5.59248 27.4365C5.33716 27.0886 5.19033 26.7215 5.10816 26.4329C5.06762 26.2904 5.0444 26.1726 5.0316 26.0937C5.02523 26.0544 5.02153 26.0253 5.01958 26.0081L5.01791 25.9925L5.01787 25.9918L5.01779 25.991L5.01778 25.9908L4.96642 25.2751L4.21594 25.2341C4.21513 25.2341 4.21401 25.234 4.21257 25.2339C4.20567 25.2333 4.19173 25.232 4.17151 25.2295C4.13096 25.2246 4.06603 25.2152 3.9827 25.1982C3.8147 25.1639 3.58024 25.1004 3.32324 24.9852C2.8214 24.7604 2.22718 24.339 1.84703 23.5038L20.4512 2.66785ZM20.4512 2.66785C19.9004 3.40264 19.1104 4.18072 17.99 4.80233L17.99 4.80235C17.2158 5.23178 16.2053 5.55906 15.1153 5.87476C14.7583 5.97816 14.392 6.08054 14.0165 6.18546C13.2165 6.40904 12.3751 6.64419 11.4945 6.92543C8.92864 7.74488 6.18371 8.91195 3.90285 11.0797L3.90277 11.0798C1.66598 13.2049 0.924226 15.8006 0.857514 18.1365C0.790371 20.4874 1.40955 22.5426 1.84701 23.5038L20.4512 2.66785Z"
+              fill=""
+              stroke=""
+              stroke-width="2"
+            />
+          </svg>
+
+          <Link
+            className={selected == 3 ? "navlink activelink" : "navlink"}
+            to="/product"
+          >
+            Product
+          </Link>
+        </div>
+        <div
+          className={
+            selected == 4 ? "navcontainer group active" : "navcontainer group"
+          }
+          onClick={() => {
+            setseledcted(4);
+            navigate("/stock");
+          }}
         >
           <svg
             role="img"
@@ -110,7 +198,7 @@ function SideBar() {
             fill="none"
             color="#000"
             className={
-              selected == 3
+              selected == 4
                 ? "w-7 group-hover:stroke-main activelink"
                 : "w-7 group-hover:stroke-main"
             }
@@ -123,17 +211,20 @@ function SideBar() {
           </svg>
 
           <Link
-            className={selected == 3 ? "navlink activelink" : "navlink"}
-            to="/product"
+            className={selected == 4 ? "navlink activelink" : "navlink"}
+            to="/stock"
           >
-            Product
+            Stock
           </Link>
         </div>
         <div
           className={
-            selected == 4 ? "navcontainer group active" : "navcontainer group"
+            selected == 5 ? "navcontainer group active" : "navcontainer group"
           }
-          onClick={() => {setseledcted(4);navigate('/client')}}
+          onClick={() => {
+            setseledcted(5);
+            navigate("/client");
+          }}
         >
           <svg
             role="img"
@@ -149,7 +240,7 @@ function SideBar() {
             fill="none"
             color="#000"
             className={
-              selected == 4
+              selected == 5
                 ? "w-7 group-hover:stroke-main activelink"
                 : "w-7 group-hover:stroke-main"
             }
@@ -160,7 +251,7 @@ function SideBar() {
           </svg>
 
           <Link
-            className={selected == 4 ? "navlink activelink" : "navlink"}
+            className={selected == 5 ? "navlink activelink" : "navlink"}
             to="/client"
           >
             Client{" "}
@@ -168,9 +259,53 @@ function SideBar() {
         </div>
         <div
           className={
-            selected == 5 ? "navcontainer group active" : "navcontainer group"
+            selected == 6 ? "navcontainer group active" : "navcontainer group"
           }
-          onClick={() => {setseledcted(5);navigate('/sales')}}
+          onClick={() => {
+            setseledcted(6);
+            navigate("/order");
+          }}
+        >
+          <svg
+            width="32px"
+            height="32px"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-labelledby="transportIconTitle"
+            stroke="#fff"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            color="#000"
+            className={
+              selected == 6
+                ? "w-7 group-hover:stroke-main activelink"
+                : "w-7 group-hover:stroke-main"
+            }
+          >
+            {" "}
+            <title id="transportIconTitle">Transport</title>{" "}
+            <path d="M4 17H2V7H15V17H8" />{" "}
+            <path d="M20 17H22V12.5556L20 9H15V17H16" />{" "}
+            <circle cx="6" cy="17" r="2" /> <circle cx="18" cy="17" r="2" />{" "}
+          </svg>
+
+          <Link
+            className={selected == 6 ? "navlink activelink" : "navlink"}
+            to="/order"
+          >
+            Order{" "}
+          </Link>
+        </div>
+        <div
+          className={
+            selected == 7 ? "navcontainer group active" : "navcontainer group"
+          }
+          onClick={() => {
+            setseledcted(7);
+            navigate("/sales");
+          }}
         >
           <svg
             role="img"
@@ -186,7 +321,7 @@ function SideBar() {
             fill="none"
             color="#000"
             className={
-              selected == 5
+              selected == 7
                 ? "w-7 group-hover:stroke-main activelink"
                 : "w-7 group-hover:stroke-main"
             }
@@ -197,7 +332,7 @@ function SideBar() {
           </svg>
 
           <Link
-            className={selected == 5 ? "navlink activelink" : "navlink"}
+            className={selected == 7 ? "navlink activelink" : "navlink"}
             to="/sales"
           >
             Sales
@@ -205,9 +340,12 @@ function SideBar() {
         </div>
         <div
           className={
-            selected == 6 ? "navcontainer group active" : "navcontainer group"
+            selected == 8 ? "navcontainer group active" : "navcontainer group"
           }
-          onClick={() => {setseledcted(6);navigate('/company')}}
+          onClick={() => {
+            setseledcted(8);
+            navigate("/company");
+          }}
         >
           <svg
             role="img"
@@ -223,7 +361,7 @@ function SideBar() {
             fill="none"
             color="#000"
             className={
-              selected == 6
+              selected == 8
                 ? "w-7 group-hover:stroke-main activelink"
                 : "w-7 group-hover:stroke-main"
             }
@@ -236,19 +374,13 @@ function SideBar() {
           </svg>
 
           <Link
-            className={selected == 6 ? "navlink activelink" : "navlink"}
+            className={selected == 8 ? "navlink activelink" : "navlink"}
             to="/company"
           >
             Company
           </Link>
         </div>
-        <div className="w-full h-[1px] bg-gray-50 my-10" ></div>
-        <div onClick={()=>HandleLogOut()}  className="cursor-pointer absolute bottom-6 flex items-center pl-4 gap-2 mt-16" >
-            <img className="w-6 " src={out} alt="..." />
-            <button className="text-white text-base hidden md:block" >Deconecte</button>
-        </div>
       </div>
-      
     </div>
   );
 }

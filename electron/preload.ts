@@ -67,7 +67,7 @@ function useLoading() {
   animation-fill-mode: both;
   width: 750px;
   background: #fff;
-  animation: appear 1s 0s cubic-bezier(0.09, 0.57, 0.49, 0.9) both;
+  animation: appear 2s 0s cubic-bezier(0.09, 0.57, 0.49, 0.9) both;
 }
 .app-loading-wrap {
   position: fixed;

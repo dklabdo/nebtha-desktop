@@ -81,6 +81,7 @@ export const pathologie = [
   "Varices",
 ];
 
-export const ProductData = [
-   
-];
+export const ApiLink = "https://biofyta.onrender.com"
+
+
+
