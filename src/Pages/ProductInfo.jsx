@@ -7,7 +7,6 @@ import NavBar from "../Components/NavBar";
 function ProductInfo() {
   const { CurrentProductInfoDisplay } = useContext(AppContext);
   
-  console.log(CurrentProductInfoDisplay.Image);
   
   return (
     <div className="w-full  px-10 overflow-y-auto h-screen py-2">

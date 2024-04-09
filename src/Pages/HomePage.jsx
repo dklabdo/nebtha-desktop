@@ -68,6 +68,7 @@ function HomePromotion() {
   const { setAjouterCodePromo } = useContext(AppContext);
 
   const [offre, setoffre] = useState([]);
+  const [codePromo, setcodePromo] = useState([]);
   const [isAdded, setisAdded] = useState(false);
   function imageAdded() {
     setisAdded(!isAdded);
@@ -77,6 +78,12 @@ function HomePromotion() {
     axios
       .get("https://nebta.onrender.com/api/offredePromotion")
       .then((res) => setoffre(res.data))
+      .catch((err) => console.log(err));
+  }, [isAdded]);
+  useEffect(() => {
+    axios
+      .get("https://nebta.onrender.com/api/codePromo")
+      .then((res) => setcodePromo(res.data))
       .catch((err) => console.log(err));
   }, [isAdded]);
 
@@ -104,7 +111,7 @@ function HomePromotion() {
       </div>
       <div className="w-full my-4  max-w-full    flex gap-4 ">
         <div className="flex flex-row-reverse overflow-x-auto gap-4">
-          {offre.map((item, index) => {
+          {codePromo.map((item, index) => {
             return <DisplayImage key={index} image={item.Image} />;
           })}
         </div>
@@ -228,18 +235,126 @@ function Hints() {
 
 export function AjouterCodePromo() {
   const { AjouterCodePromo, setAjouterCodePromo } = useContext(AppContext);
+  const [file, setfile] = useState(null);
+  const [url, seturl] = useState(null);
+  const [codePromo,setcodePromo] = useState({
+    Image : "",
+    code : "",
+    discount  : 0,
+  })
+  function HandleDrop(e) {
+    e.preventDefault();
+    const file = e.dataTransfer.files[0];
+    setfile(file);
+  }
+  function HandleFileChange(e) {
+    e.preventDefault();
+    const file = e.target.files[0];
+
+    setfile(file);
+  }
+
+  
+  useEffect(() => {
+    if (file) {
+      console.log("test");
+      const reader = new FileReader();
+      reader.onload = () => {
+        seturl(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  }, [file]);
+
+  function handleAddCodePromo(input){
+    const { name,value} = input;
+    setcodePromo({...codePromo, [name] : value})
+
+  }
+  function handleAddCodePromoSubmit(e){
+    e.preventDefault()
+    codePromo.Image  = url;
+    console.log(codePromo);
+    axios.post('https://nebta.onrender.com/api/codePromo',codePromo)
+    .then(()=>{
+      Swal.fire({
+        icon: "success",
+        title: "Votre code promo est ajouter avec succes",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+      setAjouterCodePromo(false);
+
+    })
+    .catch((err)=>{
+      console.log(err);
+    })
+    
+
+  }
 
   return (
     <>
       {AjouterCodePromo && (
         <div className="w-full flex justify-center items-center h-screen absolute bg-black/50 z-30">
-          
-          <div className="h-[70%] w-[70%] pt-8 PopUp  rounded-3xl shadow-lg shadow-black/50  bg-white">
-          <img
-            onClick={()=>setAjouterCodePromo(false)}
-            src={out}
-            className=" relative cursor-pointer ml-8 w-12 rounded-full p-1 rotate-180"
-          />
+          <div className="h-[80%] relative w-[70%] pt-8 PopUp flex    rounded-3xl shadow-lg shadow-black/50  bg-white">
+            <img
+              onClick={() => setAjouterCodePromo(false)}
+              src={out}
+              className=" absolute cursor-pointer ml-8 w-12 rounded-full p-1 rotate-180"
+            />
+            <form onSubmit={(e)=>handleAddCodePromoSubmit(e)} className="flex  justify-center  flex-col w-[70%] my-20 mx-auto gap-2 ">
+              <label className="text-lg text-main pl-2 " htmlFor="code">
+                Le code Promo
+              </label>
+              <input
+                className="appearance-none p-4 bg-white border-2 border-main rounded-full"
+                id="code"
+                type="text"
+                placeholder="FIRSTBUY"
+                onChange={(e)=>{handleAddCodePromo(e.target)}}
+                name="code"
+              />
+              <label className="text-lg text-main pl-2 " htmlFor="discount">
+                Discount
+              </label>
+              <input
+                maxLength={2}
+                className="appearance-none p-4 bg-white border-2 border-main rounded-full"
+                id="discount"
+                type="number"
+                placeholder="example -20%"
+                onChange={(e)=>{handleAddCodePromo(e.target)}}
+                name="discount"
+
+              />
+              <label className="text-lg text-main pl-2 " htmlFor="discount">
+                Creative
+              </label>
+              <div
+                onDrop={(e) => HandleDrop(e)}
+                onDragOver={(e) => e.preventDefault()}
+                className={`w-full  justify-center relative rounded-3xl flex  border-solid h-[250px]`}
+              >
+                {file ? <img src={url} alt="..." />  : <label
+                  className={`z-20 justify-center items-center gap-4 flex flex-col py-2  w-full  text-center text-base   text-black/70  rounded-full cursor-pointer `}
+                  htmlFor="addFile"
+                >
+                  <img className="w-28 my-2" src={def} alt="..." />
+                  Ajouter une image
+                </label>}
+
+                <input
+                  onChange={(e) => HandleFileChange(e)}
+                  type="file"
+                  className="hidden"
+                  id="addFile"
+                />
+              </div>
+              <button type="submit" className="my-4 bg-main py-3 rounded-full text-white text-base">
+                Ajouter un code promo
+              </button>
+            </form>
           </div>
         </div>
       )}

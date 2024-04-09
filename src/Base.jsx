@@ -14,6 +14,7 @@ import ProductInfo from "./Pages/ProductInfo";
 import ProductModifie from "./Pages/ProductModifie";
 import StockPage from "./Pages/StockPage";
 import OrderPage from "./Pages/OrderPage";
+import SuperAdmin from "./Pages/SuperAdmin";
 function Base() {
   
   return (
@@ -32,6 +33,7 @@ function Base() {
           <Route path="/company" element={<div className="flex"><SideBar/><CompanyPage /></div>} />
           <Route path="/ProductInfo" element={<div className="flex"><SideBar/><ProductInfo /></div>} />
           <Route path="/modifieProduct" element={<div className="flex"><SideBar/><ProductModifie /></div>} />
+          <Route path="/superAdmin" element={<div className="flex"><SideBar/><SuperAdmin /></div>} />
         </Routes>
       </div>
     </AppProvider>

@@ -39,7 +39,7 @@ function LogInPage() {
           
         </form>
         {logstate == true ? (
-            <Button className="rounded-full px-18  w-fit mx-auto  text-base py-[18px] font-medium " loading={true}>
+            <Button className="rounded-full px-28  text-base py-[20px] font-medium " loading={true}>
              <></> 
             </Button>
           ) : (

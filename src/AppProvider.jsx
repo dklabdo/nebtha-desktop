@@ -13,9 +13,9 @@ export const AppContext = createContext();
 function AppProvider(props) {
   // admin information //
   const [admin, setAdmin] = useState({
-    username: "",
     email: "",
     password: "",
+
   });
   const navigate = useNavigate();
   // signed stand for a boolean set to true after the admin loged successfuly into the app //
@@ -31,8 +31,9 @@ function AppProvider(props) {
   // the submit action //
   function HandleSubmit(e) {
     e.preventDefault();
-    setlogstate(true)
-    signInWithEmailAndPassword(auth, admin.email, admin.password)
+    setlogstate(true);
+    console.log(admin);
+    axios.post('https://nebta-7.onrender.com/api/auth/login',admin)
       .then((res) => {
         setsigned(true);
         navigate("/addProduct");

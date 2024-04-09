@@ -380,6 +380,48 @@ function SideBar() {
             Company
           </Link>
         </div>
+        <div
+          className={
+            selected == 9 ? "navcontainer group active" : "navcontainer group"
+          }
+          onClick={() => {
+            setseledcted(8);
+            navigate("/superAdmin");
+          }}
+        >
+          <svg
+            role="img"
+            xmlns="http://www.w3.org/2000/svg"
+            width="32px"
+            height="32px"
+            viewBox="0 0 24 24"
+            aria-labelledby="trendingUpIconTitle"
+            stroke="#fff"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            fill="none"
+            color="#000"
+            className={
+              selected == 9
+                ? "w-7 group-hover:stroke-main activelink"
+                : "w-7 group-hover:stroke-main"
+            }
+          >
+            {" "}
+            <title id="trendingUpIconTitle">Trending Up</title>{" "}
+            <polyline points="3 17 9 11 13 15 20.405 7.595" />{" "}
+            <path strokeLinecap="round" d="M20.4054613,7.59453873 L21,7" />{" "}
+            <polyline points="21 10 21 7 18 7" />{" "}
+          </svg>
+
+          <Link
+            className={selected == 9 ? "navlink activelink" : "navlink"}
+            to="/superAdmin"
+          >
+            Super admin
+          </Link>
+        </div>
       </div>
     </div>
   );
