@@ -2,7 +2,7 @@ import {React, useState , useEffect} from "react";
 import { createContext } from "react";
 import app from "./firebase"
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { ApiLink } from "./Components/Data";
+import { ApiLink, adminLogInfo } from "./Components/Data";
 const auth = getAuth(app);
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -12,11 +12,13 @@ export const AppContext = createContext();
 
 function AppProvider(props) {
   // admin information //
-  const [admin, setAdmin] = useState({
+  const [adminAuth, setAdminAuth] = useState({
     email: "",
     password: "",
 
   });
+  const [adminInfo, setadminInfo] = useState(null)
+  const [adminRole,setadminRole] = useState(localStorage.getItem("role"));
   const navigate = useNavigate();
   // signed stand for a boolean set to true after the admin loged successfuly into the app //
   const [signed, setsigned] = useState(false);
@@ -26,18 +28,22 @@ function AppProvider(props) {
   function HandleChange(inputValue) {
     const { name, value } = inputValue;
     setlogstate(null);
-    setAdmin({...admin , [name] : value });
+    setAdminAuth({...adminAuth , [name] : value });
   }
   // the submit action //
   function HandleSubmit(e) {
     e.preventDefault();
     setlogstate(true);
-    console.log(admin);
-    axios.post('https://nebta-7.onrender.com/api/auth/login',admin)
+    console.log(adminAuth);
+    axios.post('https://nebta.onrender.com/api/admin/login',adminAuth)
       .then((res) => {
         setsigned(true);
-        navigate("/addProduct");
-        console.log(res.user.reloadUserInfo.localId);
+        navigate("/home");
+        console.log(res.data.data);
+        localStorage.setItem("name",res.data.data.fullname)
+        localStorage.setItem("role",res.data.data.role)
+        localStorage.setItem("img",res.data.data.avatar)
+        setadminRole(res.data.data.role)
       })
       .catch((err)=>{
         console.error(err);
@@ -52,11 +58,10 @@ function AppProvider(props) {
   navigate('/');
   setsigned(false);
   setlogstate(null);
-  setAdmin({
+  adminLogInfo.pop()
+  setAdminAuth({
     username: "",
     email: "",
-    password: "",
-    role: "",
   })
 
  }
@@ -202,6 +207,7 @@ function AppProvider(props) {
       timer: 2000
     });
     setModifieProduct(!ModifieProduct)
+    setiSModifieProductPending(false)
     navigate("/product");
     
   }).catch((err)=>{
@@ -236,9 +242,13 @@ const [homeSelectedInsert,setHomeSelectedInsert] = useState(1)
 
 const [AjouterCodePromo,setAjouterCodePromo] = useState(false)
 
- 
+const [AddAdmin,setAddAdmin] = useState(false)
+
+const [newAdmin,setnewAdmin] = useState(false);
+const [deleatAdmin,setdeleatAdmin] = useState(false);
+
   return (
-    <AppContext.Provider value={{AjouterCodePromo,setAjouterCodePromo,homeSelectedInsert,setHomeSelectedInsert,ProductData,url,setCurrentProductToModifie, seturl,HandleChekBoxModifyChange,deleted,setdeleted,HandleModifieProduct,iSModifieProductPending,HandleModifieProductSubmit,CurrentProductToModifie,setCurrentProductToModifie,CurrentStockAndPrice,setCurrentStockAndPrice,UpdateProduct,setUpdateProduct,CurrentProductInfoDisplay,setCurrentProductInfoDisplay,ProductDisplay,setProductDisplay,iSproductAddPending, HandleChekBoxChange ,  HandleAddProductSubmit, HandleAddProduct,product,setproduct ,file, setfile,HandleChange,admin,signed,logstate, HandleLogOut,urlToModifie, seturlToModifie ,HandleSubmit,setshow,show }}>{props.children}</AppContext.Provider>
+    <AppContext.Provider value={{adminRole,setadminRole,adminInfo,deleatAdmin,setdeleatAdmin,newAdmin,setnewAdmin,AddAdmin,setAddAdmin,AjouterCodePromo,setAjouterCodePromo,homeSelectedInsert,setHomeSelectedInsert,ProductData,url,setCurrentProductToModifie, seturl,HandleChekBoxModifyChange,deleted,setdeleted,HandleModifieProduct,iSModifieProductPending,HandleModifieProductSubmit,CurrentProductToModifie,setCurrentProductToModifie,CurrentStockAndPrice,setCurrentStockAndPrice,UpdateProduct,setUpdateProduct,CurrentProductInfoDisplay,setCurrentProductInfoDisplay,ProductDisplay,setProductDisplay,iSproductAddPending, HandleChekBoxChange ,  HandleAddProductSubmit, HandleAddProduct,product,setproduct ,file, setfile,HandleChange,signed,logstate, HandleLogOut,urlToModifie, seturlToModifie ,HandleSubmit,setshow,show }}>{props.children}</AppContext.Provider>
   );
 }
 

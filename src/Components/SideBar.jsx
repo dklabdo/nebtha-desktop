@@ -8,7 +8,7 @@ import out from "../assets/image/icon/out.svg";
 import { useNavigate } from "react-router-dom";
 
 function SideBar() {
-  const { HandleLogOut } = useContext(AppContext);
+  const { HandleLogOut , adminRole } = useContext(AppContext);
   const navigate = useNavigate();
 
   function CurrentLink(value) {
@@ -18,7 +18,7 @@ function SideBar() {
         break;
       case "/home":
         return 2;
-        break;
+        break;adminRole
       case "/product":
         return 3;
         break;
@@ -43,6 +43,9 @@ function SideBar() {
       case "/modifieProduct":
         return 8;
         break;
+      case "/superAdmin":
+        return 9;
+        break;
 
       default:
         return 0;
@@ -57,9 +60,10 @@ function SideBar() {
       <img className="hidden md:block w-48 mt-10" src={logo} alt="..." />
       <img className="w-10 md:hidden mt-10" src={logo2} alt="..." />
       <div className="w-[80%] my-12">
-        <div
+        {adminRole == 0 || adminRole == 1 ? <div
           className={
             selected == 1 ? "navcontainer group active" : "navcontainer group"
+            
           }
           onClick={() => {
             setseledcted(1);
@@ -96,7 +100,7 @@ function SideBar() {
           >
             Add
           </Link>
-        </div>
+        </div> : <></>}
         <div
           className={
             selected == 2 ? "navcontainer group active" : "navcontainer group"
@@ -138,7 +142,7 @@ function SideBar() {
             Home
           </Link>
         </div>
-        <div
+        {adminRole == 0 || adminRole == 1 || adminRole == 2 ? <div
           className={
             selected == 3 ? "navcontainer group active" : "navcontainer group"
           }
@@ -174,8 +178,8 @@ function SideBar() {
           >
             Product
           </Link>
-        </div>
-        <div
+        </div> : <></> }
+        {adminRole == 0 || adminRole == 2 ? <div
           className={
             selected == 4 ? "navcontainer group active" : "navcontainer group"
           }
@@ -216,8 +220,8 @@ function SideBar() {
           >
             Stock
           </Link>
-        </div>
-        <div
+        </div>: <></>}
+        {adminRole == 0 || adminRole == 2 || adminRole == 3 ? <div
           className={
             selected == 5 ? "navcontainer group active" : "navcontainer group"
           }
@@ -256,8 +260,8 @@ function SideBar() {
           >
             Client{" "}
           </Link>
-        </div>
-        <div
+        </div>: <></>}
+        {adminRole == 0 || adminRole == 2 ? <div
           className={
             selected == 6 ? "navcontainer group active" : "navcontainer group"
           }
@@ -274,9 +278,9 @@ function SideBar() {
             xmlns="http://www.w3.org/2000/svg"
             aria-labelledby="transportIconTitle"
             stroke="#fff"
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
             color="#000"
             className={
               selected == 6
@@ -297,8 +301,8 @@ function SideBar() {
           >
             Order{" "}
           </Link>
-        </div>
-        <div
+        </div>: <></>}
+        {adminRole == 0 || adminRole == 2 || adminRole == 3 ? <div
           className={
             selected == 7 ? "navcontainer group active" : "navcontainer group"
           }
@@ -337,8 +341,8 @@ function SideBar() {
           >
             Sales
           </Link>
-        </div>
-        <div
+        </div>: <></>}
+        {adminRole == 0 || adminRole == 2 ? <div
           className={
             selected == 8 ? "navcontainer group active" : "navcontainer group"
           }
@@ -379,29 +383,28 @@ function SideBar() {
           >
             Company
           </Link>
-        </div>
-        <div
+        </div>: <></>}
+        {adminRole == 0 ? <div
           className={
             selected == 9 ? "navcontainer group active" : "navcontainer group"
           }
           onClick={() => {
-            setseledcted(8);
+            setseledcted(9);
             navigate("/superAdmin");
           }}
         >
           <svg
-            role="img"
-            xmlns="http://www.w3.org/2000/svg"
             width="32px"
             height="32px"
             viewBox="0 0 24 24"
-            aria-labelledby="trendingUpIconTitle"
-            stroke="#fff"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-labelledby="personAddIconTitle"
+            stroke="#ffff"
+            strokeWidth="1.5"
+            strokeLinecap="square"
+            strokeLinejoin="miter"
             fill="none"
-            color="#000"
+            color="#fff"
             className={
               selected == 9
                 ? "w-7 group-hover:stroke-main activelink"
@@ -409,19 +412,18 @@ function SideBar() {
             }
           >
             {" "}
-            <title id="trendingUpIconTitle">Trending Up</title>{" "}
-            <polyline points="3 17 9 11 13 15 20.405 7.595" />{" "}
-            <path strokeLinecap="round" d="M20.4054613,7.59453873 L21,7" />{" "}
-            <polyline points="21 10 21 7 18 7" />{" "}
+            <title id="personAddIconTitle">Add user</title>{" "}
+            <path d="M1 18C1 15.75 4 15.75 5.5 14.25C6.25 13.5 4 13.5 4 9.75C4 7.25025 4.99975 6 7 6C9.00025 6 10 7.25025 10 9.75C10 13.5 7.75 13.5 8.5 14.25C10 15.75 13 15.75 13 18" />{" "}
+            <path d="M22 11H14" /> <path d="M18 7V15" />{" "}
           </svg>
 
           <Link
             className={selected == 9 ? "navlink activelink" : "navlink"}
             to="/superAdmin"
           >
-            Super admin
+            Admins
           </Link>
-        </div>
+        </div>: <></>}
       </div>
     </div>
   );

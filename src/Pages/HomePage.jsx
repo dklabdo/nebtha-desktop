@@ -10,12 +10,13 @@ import out from "../assets/image/icon/out.svg";
 import { AppContext } from "../AppProvider";
 function HomePage() {
   const [addHint, setaddHint] = useState(false);
-  const { homeSelectedInsert } = useContext(AppContext);
+  const { homeSelectedInsert ,adminRole} = useContext(AppContext);
   return (
     <div className="w-full h-screen overflow-x-hidden overflow-y-auto flex flex-col">
-      <NavBar home={true} />
+      <NavBar home={true} commerce={adminRole != 1}  />
       {homeSelectedInsert == 1 && <HomeNews />}
       {homeSelectedInsert == 2 && <HomePromotion />}
+      {homeSelectedInsert == 3 && <HomePromotion />}
     </div>
   );
 }
@@ -50,10 +51,10 @@ function HomeNews() {
       </div>
 
       <div className="my-16 mx-4 flex justify-between items-center">
-        <h1 className="ml-2 text-lg font-semibold">Conseille du jour</h1>
+        <h1 className="ml-2 text-lg font-semibold">Conseil du jour</h1>
         <button className="py-2 px-8 flex items-center gap-4  text-main text-base rounded-full cursor-pointer border-2 border-main bg-white ">
           <img className="w-10" src={add} alt="..." />
-          Ajouter un conseille
+          Ajouter un conseil
         </button>
       </div>
       <Hints />
@@ -121,6 +122,12 @@ function HomePromotion() {
   );
 }
 
+function HomeArticle(){
+  return(
+    <h1>artcile page</h1>
+  )
+}
+
 function Info() {
   return (
     <div className="w-full gap-4 mx-2  flex items-center my-8">
@@ -133,9 +140,9 @@ function Info() {
         viewBox="0 0 24 24"
         aria-labelledby="infoIconTitle"
         stroke="#3C615A"
-        stroke-width="1"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="1"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         fill="none"
         color="#3C615A"
       >

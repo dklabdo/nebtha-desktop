@@ -30,11 +30,12 @@ function ProductPage() {
       {
         <div className={`overflow-y-auto h-screen w-full`}>
           
-          <NavBar display={true} searchBar={true} />
+          <NavBar display={ProductData.length} searchBar={true} />
+          <div className="w-fit h-screen flex justify-center   ">
           {ProductData.length == 0 ? (
-            <h1 className="text-center my-24 text-base text-black/50">pas de prouduit</h1>
+            <h1 className="text-center my-24  text-base text-black/50">pas de prouduit</h1>
           ): (
-            (<div className="pt-8 gap-4 w-full flex  my-8 px-6 flex-row flex-wrap ">
+            (<div className="pt-8 gap-4     flex   my-8 px-6 flex-row flex-wrap ">
             {ProductData.map((pr, index) => {
               return(
                 <ProductCardGrid key={index} product={pr} /> 
@@ -46,6 +47,7 @@ function ProductPage() {
           
           
           }
+          </div>
         </div>
       }
     </>
@@ -89,7 +91,8 @@ function ProductCardGrid({product}){
     setCurrentStockAndPrice,
     setCurrentProductInfoDisplay,
     setUpdateProduct,
-    setCurrentProductToModifie
+    setCurrentProductToModifie,
+    adminRole
   } = useContext(AppContext);
   
   function copyToClipboard(text) {
@@ -97,7 +100,7 @@ function ProductCardGrid({product}){
   }
 
   return(
-    <div className="relative py-2 flex flex-col bg-white shadow-md shadow-black/30 transition w-72 h-[450px] ">
+    <div className="relative flex py-2  flex-col bg-white shadow-md shadow-black/30 transition  max-w-96  flex-grow   h-[450px] ">
         <div className="w-full h-1/2 flex justify-center p-10">
             <img src={product.Image} />
         </div>
@@ -107,7 +110,7 @@ function ProductCardGrid({product}){
            <div className="w-full  px-5 py-2 flex items-center justify-between">
               <h1>{product.Price} DA</h1>
               <div className="">
-            <Menu
+            {adminRole == 1 && <Menu
               animate={{
                 mount: { y: 0 },
                 unmount: { y: 25 },
@@ -148,7 +151,7 @@ function ProductCardGrid({product}){
                   Copie Id
                 </MenuItem>
               </MenuList>
-            </Menu>
+            </Menu>}
           </div>
 
            </div>
@@ -219,7 +222,7 @@ export function UpdateStock() {
           />
         </button>
         <h1 className="text-center my-2 text-main text-xl">
-          Mis a jour du prix et du stock
+        Mise à jour du prix et du stock
         </h1>
         <form onSubmit={(e)=>HandleUpdatePriceAndStock(e)} className="flex flex-col  w-full  ">
           <div className="flex gap-10 px-10 my-20">
@@ -273,7 +276,7 @@ export function UpdateStock() {
             onClick={() => HandleUpdatePriceAndStock()}
             className="mx-auto border-2 hover:bg-main hover:text-white rounded-full font-medium text-main border-main px-6 py-2"
           >
-            Mis a jour du stock
+            Mise à jour du stock
           </button>
         </form>
         </div>

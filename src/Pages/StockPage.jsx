@@ -9,7 +9,7 @@ function StockPage() {
   const { ProductData } = useContext(AppContext);
   console.log(ProductData);
   return (
-    <div className="h-screen w-full p-4">
+    <div className="h-screen w-full px-4">
       <NavBar searchBar={true} />
       <div className="w-full my-12 flex flex-col">
         {ProductData.map((pr, index) => {
