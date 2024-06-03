@@ -6,14 +6,14 @@ import { useNavigate } from "react-router-dom";
 import icon1 from "../assets/image/icon/transport.svg";
 import icon2 from "../assets/image/icon/copy.svg";
 function StockPage() {
-  const { ProductData } = useContext(AppContext);
+  const { ProductData,SearchStock} = useContext(AppContext);
   console.log(ProductData);
   return (
-    <div className="h-screen w-full px-4">
-      <NavBar searchBar={true} />
+    <div className="h-screen overflow-y-auto w-full px-4">
+      <NavBar searchBar={true} type="Stock" />
       <div className="w-full my-12 flex flex-col">
         {ProductData.map((pr, index) => {
-          return <ProductCardList product={pr} key={index} />;
+          return pr.ProductName.toLowerCase().includes(SearchStock.toLowerCase()) && <ProductCardList product={pr} key={index} />;
         })}
       </div>
     </div>

@@ -86,4 +86,7 @@ export const role = ["super admin","chercheur","e-commerce","Marketing"];
 export const ApiLink = "https://biofyta.onrender.com"
 
 
+
+
+
 export const adminLogInfo = [];

@@ -12,7 +12,7 @@ function LogInPage() {
   return (
     <div className="h-screen   bg w-full ">
       <div className="w-full flex justify-center items-center h-screen bg-main/40">
-      <div className=" w-[40%] gap-20 flex-col justify-center z-10 h-[80%] rounded-3xl items-center flex  ">
+      <div className=" w-[60%] justify-between flex-col  z-10 h-[80%] rounded-3xl items-center flex  ">
         <img src={logo} className="w-96" />
         <form
           onSubmit={(e) => HandleSubmit(e)}
@@ -39,14 +39,14 @@ function LogInPage() {
           
         </form>
         {logstate == true ? (
-            <Button className="rounded-full px-28  text-base py-[20px] font-medium " loading={true}>
+            <Button className="rounded-full px-28  text-base py-[16px] font-medium " loading={true}>
              <></> 
             </Button>
           ) : (
             <button
               type="submit"
               onClick={(e) => HandleSubmit(e)}
-              className="px-24   text-base py-3 transition font-medium hover:bg-main hover:text-white mx-auto text-main border-2 border-main rounded-full bg-white"
+              className="px-24   text-base py-2 transition font-medium hover:bg-main hover:text-white mx-auto text-main border-2 border-main rounded-full bg-white"
             >
               Log In
             </button>
@@ -82,7 +82,7 @@ function Input({ name, placeholder, icon, type, active, possible }) {
         placeholder={placeholder}
         name={name}
         onChange={(e) => HandleChange(e.target)}
-        className={`shadow-black/50 bg-white pl-14 -z-10 focus:border-main border-2   py-7 relative outline-none w-full h-10 rounded-full transition    shadow-sm px-4  placeholder:text-black/60 ${
+        className={`shadow-black/50 bg-white pl-14 -z-10 focus:border-main border-2   py-6 relative outline-none w-full h-10 rounded-full transition    shadow-sm px-4  placeholder:text-black/60 ${
           logstate == false && possible
             ? "text-red-300 "
             : ""

@@ -63,7 +63,7 @@ function AdminCard({ admin }) {
   }
 
   return (
-    <div className=" w-full h-48 flex my-4">
+    <div className=" w-full scale-95  h-48 flex my-4">
       <div className="w-[20%]  h-full flex justify-center items-center">
         <img
           className="w-32 h-32 object-cover rounded-full"
@@ -84,9 +84,9 @@ function AdminCard({ admin }) {
             viewBox="0 0 24 24"
             aria-labelledby="binIconTitle"
             stroke="#000"
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
             fill="none"
             className="stroke-main group-hover:stroke-white"
           >

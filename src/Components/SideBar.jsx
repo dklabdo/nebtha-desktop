@@ -6,6 +6,7 @@ import logo from "../assets/image/logo2.png";
 import logo2 from "../assets/image/logo-entreprice.svg";
 import out from "../assets/image/icon/out.svg";
 import { useNavigate } from "react-router-dom";
+import cancel from "../assets/image/icon/exit.svg";
 
 function SideBar() {
   const { HandleLogOut , adminRole } = useContext(AppContext);
@@ -56,51 +57,12 @@ function SideBar() {
 
   const [selected, setseledcted] = useState(CurrentLink(location.pathname));
   return (
-    <div className="md:min-w-[290px]  w-20 relative sh flex flex-col items-center bg-main h-screen">
+    <div className="md:min-w-[290px] justify-between w-20 relative  flex flex-col  bg-main h-screen">
+      <div className="pl-10">
       <img className="hidden md:block w-48 mt-10" src={logo} alt="..." />
       <img className="w-10 md:hidden mt-10" src={logo2} alt="..." />
       <div className="w-[80%] my-12">
-        {adminRole == 0 || adminRole == 1 ? <div
-          className={
-            selected == 1 ? "navcontainer group active" : "navcontainer group"
-            
-          }
-          onClick={() => {
-            setseledcted(1);
-            navigate("/addProduct");
-          }}
-        >
-          <svg
-            role="img"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            aria-labelledby="addIconTitle"
-            stroke="white"
-            width="32px"
-            height="32px"
-            strokeWidth="2"
-            strokeLinecap="square"
-            strokeLinejoin="miter"
-            fill="none"
-            color="#000"
-            className={
-              selected == 1
-                ? "w-7 group-hover:stroke-main activelink"
-                : "w-7 group-hover:stroke-main"
-            }
-          >
-            {" "}
-            <title id="addIconTitle">Add</title>{" "}
-            <path d="M17 12L7 12M12 17L12 7" />{" "}
-            <circle cx="12" cy="12" r="10" />{" "}
-          </svg>
-          <Link
-            className={selected == 1 ? "navlink activelink" : "navlink"}
-            to="/addProduct"
-          >
-            Add
-          </Link>
-        </div> : <></>}
+        
         <div
           className={
             selected == 2 ? "navcontainer group active" : "navcontainer group"
@@ -221,7 +183,7 @@ function SideBar() {
             Stock
           </Link>
         </div>: <></>}
-        {adminRole == 0 || adminRole == 2 || adminRole == 3 ? <div
+        {/* {adminRole == 0 || adminRole == 2 || adminRole == 3 ? <div
           className={
             selected == 5 ? "navcontainer group active" : "navcontainer group"
           }
@@ -260,7 +222,7 @@ function SideBar() {
           >
             Client{" "}
           </Link>
-        </div>: <></>}
+        </div>: <></>} */}
         {adminRole == 0 || adminRole == 2 ? <div
           className={
             selected == 6 ? "navcontainer group active" : "navcontainer group"
@@ -302,7 +264,7 @@ function SideBar() {
             Order{" "}
           </Link>
         </div>: <></>}
-        {adminRole == 0 || adminRole == 2 || adminRole == 3 ? <div
+        {/* {adminRole == 0 || adminRole == 2 || adminRole == 3 ? <div
           className={
             selected == 7 ? "navcontainer group active" : "navcontainer group"
           }
@@ -341,7 +303,7 @@ function SideBar() {
           >
             Sales
           </Link>
-        </div>: <></>}
+        </div>: <></>} */}
         {adminRole == 0 || adminRole == 2 ? <div
           className={
             selected == 8 ? "navcontainer group active" : "navcontainer group"
@@ -381,7 +343,7 @@ function SideBar() {
             className={selected == 8 ? "navlink activelink" : "navlink"}
             to="/company"
           >
-            Company
+            Statistique
           </Link>
         </div>: <></>}
         {adminRole == 0 ? <div
@@ -425,6 +387,15 @@ function SideBar() {
           </Link>
         </div>: <></>}
       </div>
+      </div>
+      <button onClick={() => HandleLogOut()} className="flex gap-4 bg-white text-main font-medium rounded-3xl  px-8 py-2 items-center w-fit my-6 ml-10 flex-row-reverse">
+        Log-out
+      <img
+              src={cancel}
+              
+              className="w-7  rotate-180"
+            />
+      </button>
     </div>
   );
 }

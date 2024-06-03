@@ -23,7 +23,7 @@ module.exports = withMT({
       
       fontSize: {
         "sm": "clamp(0.8rem, 0.17vw + 0.76rem, 0.89rem)",
-        "base": "clamp(1rem, 0.34vw + 0.91rem, 1.19rem)",
+        "base": "clamp(1rem, 0.30vw + 0.88rem, 1.15rem)",
         "lg": "clamp(1.25rem, 0.61vw + 1.1rem, 1.58rem)",
         "xl": "clamp(1.56rem, 1vw + 1.31rem, 2.11rem)",
         "2xl": "clamp(1.95rem, 1.56vw + 1.56rem, 2.81rem)",

@@ -3,20 +3,27 @@ import { AppContext } from "../AppProvider";
 import def from "../assets/image/default-image.jpg";
 import { maladieChronique, pathologie } from "../Components/Data";
 import { Button } from "@material-tailwind/react";
+import NavBar from "../Components/NavBar";
 
 function AddProduct() {
-  const {url, seturl,iSproductAddPending,  HandleAddProductSubmit, file, setfile } =
-    useContext(AppContext);
+  const {
+    url,
+    seturl,
+    iSproductAddPending,
+    HandleAddProductSubmit,
+    file,
+    setfile,
+  } = useContext(AppContext);
   function HandleDrop(e) {
     e.preventDefault();
     const file = e.dataTransfer.files[0];
-   
+
     setfile(file);
   }
   function HandleFileChange(e) {
     e.preventDefault();
     const file = e.target.files[0];
-    
+
     setfile(file);
   }
   useEffect(() => {
@@ -24,7 +31,6 @@ function AddProduct() {
       const reader = new FileReader();
       reader.onloadend = () => {
         seturl(reader.result);
-        
       };
       reader.readAsDataURL(file);
     }
@@ -34,105 +40,110 @@ function AddProduct() {
     <>
       {
         <div className="px-8 lg:px-24 py-6 h-screen overflow-y-scroll w-full flex flex-col ">
-          <form onSubmit={(e)=>HandleAddProductSubmit(e)}>
-          <div className="flex gap-8 ">
-            <div className="flex flex-col   w-fit ">
-              <div
-                onDrop={(e) => HandleDrop(e)}
-                onDragOver={(e) => e.preventDefault()}
-                className="cursor-move w-72 h-72 flex justify-center items-center border-dashed mb-2 mt-8 rounded-2xl border-2 border-main"
-              >
-                <img
-                  src={url == null ? def : url}
-                  className="object-contain w-full rounded-2xl"
+          <NavBar searchBar={false} display={false} link="product" />
+          <form onSubmit={(e) => HandleAddProductSubmit(e)}>
+            <div className="flex gap-8 ">
+              <div className="flex flex-col   w-fit ">
+                <div
+                  onDrop={(e) => HandleDrop(e)}
+                  onDragOver={(e) => e.preventDefault()}
+                  className="cursor-move w-72 h-72 flex justify-center items-center border-dashed mb-2 mt-8 rounded-2xl border-2 border-main"
+                >
+                  <img
+                    src={url == null ? def : url}
+                    className="object-contain w-full rounded-2xl"
+                  />
+                </div>
+                <label
+                  className="self-center w-full text-center text-main  underline rounded-full cursor-pointer"
+                  htmlFor="addFile"
+                >
+                  Ajouter une photo
+                </label>
+                <input
+                  onChange={(e) => HandleFileChange(e)}
+                  type="file"
+                  className="hidden"
+                  id="addFile"
                 />
               </div>
-              <label
-                className="self-center w-full text-center text-main  underline rounded-full cursor-pointer"
-                htmlFor="addFile"
-              >
-                Ajouter une photo
-              </label>
-              <input
-                onChange={(e) => HandleFileChange(e)}            
-                type="file"
-                className="hidden"
-                id="addFile"
-              />
-              
+              <div className="w-full h-72 my-4  py-2">
+                <InputField
+                  type="text"
+                  name="ProductName"
+                  label="Nom du prouduit"
+                  placeholder="zinginber"
+                />
+                <InputField
+                  label="Nom scietific du prouduit"
+                  placeholder="zinginber"
+                  name="ProductScientificName"
+                  type="text"
+                />
+                <InputField
+                  type="text"
+                  name="ProductArabicName"
+                  label="اسم المنتج"
+                  placeholder="الزنجبيل"
+                />
+                <InputField
+                  type="number"
+                  name="Price"
+                  label="Prix"
+                  placeholder="3500DA"
+                />
+              </div>
             </div>
-            <div className="w-full h-72 my-4  py-2">
-              <InputField
-                type="text"
-                name="ProductName"
-                label="Nom du prouduit"
-                placeholder="zinginber"
-              />
-              <InputField
-                label="Nom scietific du prouduit"
-                placeholder="zinginber"
-                name="ProductScientificName"
-                type="text"
-              />
-              <InputField
-                type="text"
-                name="ProductArabicName"
-                label="اسم المنتج"
-                placeholder="الزنجبيل"
-              />
-              <InputField
-                type="number"
-                name="Price"
-                label="Prix"
-                placeholder="3500DA"
+            <div className="w-full my-10 flex gap-6  ">
+              <ChoiceMenu id="c1" state={true} label="Ajouter des indication" />
+              <ChoiceMenu
+                id="c2"
+                state={false}
+                label="Ajouter des contre indication"
               />
             </div>
-          </div>
-          <div className="w-full my-10 flex gap-6  ">
-            <ChoiceMenu id="c1" state={true} label="Ajouter des indication" />
-            <ChoiceMenu
-              id="c2"
-              state={false}
-              label="Ajouter des contre indication"
-            />
-          </div>
-          <div className="text-base my-4 flex justify-between px-3" >
-            <h2>Category :</h2>
-            
-            <ChekBox label="Aromathérapie" name="aromatherapie" />
-            <ChekBox label="Épicerie" name="epicerie" />
-          </div>
-          <div className="w-full grid-cols-2  gap-6  py-2">
-            <TextArea
-              name="Productdesc"
-              label="Description du prouduit"
-              placeholder=""
-            />
-            <TextArea name="Propriete" label="Proprietes" placeholder="" />
-            <TextArea
-              name="ModeUtilisation"
-              label="Mode d'utilisation"
-              placeholder=""
-            />
-            <TextArea
-              name="Precaution"
-              label="precautions d'emploi"
-              placeholder=""
-            />
-          </div>
-          <div className="flex my-2">
-            {!iSproductAddPending ? (<button
-              type="submit"
-              className="bg-main text-white px-6 py-3 rounded-full my-6  mx-auto "
-            >
-              Ajouter le prouduit
-            </button>) : (<Button className="rounded-full px-20  w-fit mx-auto  text-base py-4 my-6 font-medium " loading={true}>
-             <></> 
-            </Button>)}
-          </div>
+            <div className="text-base my-4 flex justify-between px-3">
+              <h2>Category :</h2>
 
+              <ChekBox label="Aromathérapie" name="aromatherapie" />
+              <ChekBox label="Épicerie" name="epicerie" />
+            </div>
+            <div className="w-full grid-cols-2  gap-6  py-2">
+              <TextArea
+                name="Productdesc"
+                label="Description du prouduit"
+                placeholder=""
+              />
+              <TextArea name="Propriete" label="Proprietes" placeholder="" />
+              <TextArea
+                name="ModeUtilisation"
+                label="Mode d'utilisation"
+                placeholder=""
+              />
+              <TextArea
+                name="Precaution"
+                label="precautions d'emploi"
+                placeholder=""
+              />
+            </div>
+            <div className="flex my-2">
+              {!iSproductAddPending ? (
+                <button
+                  type="submit"
+                  className="bg-main text-white px-6 py-3 rounded-full my-6  mx-auto "
+                >
+                  Ajouter le prouduit
+                </button>
+              ) : (
+                <Button
+                  className="rounded-full px-20  w-fit mx-auto  text-base py-4 my-6 font-medium "
+                  loading={true}
+                >
+                  <></>
+                </Button>
+              )}
+            </div>
           </form>
-          
         </div>
       }
     </>
@@ -163,9 +174,17 @@ function ChekBox({ name, label }) {
 
   return (
     <div className="flex  items-center gap-2">
-      <input onChange={(e)=>HandleChekBoxChange(e.target)} className="border-2  border-main w-5 h-5 rounded-full checked:bg-main  appearance-none" name={name} id={label} type="checkbox" />
+      <input
+        onChange={(e) => HandleChekBoxChange(e.target)}
+        className="border-2  border-main w-5 h-5 rounded-full checked:bg-main  appearance-none"
+        name={name}
+        id={label}
+        type="checkbox"
+      />
 
-      <label className="text-base cursor-pointer text-main" htmlFor={label}>{label}</label>
+      <label className="text-base cursor-pointer text-main" htmlFor={label}>
+        {label}
+      </label>
     </div>
   );
 }

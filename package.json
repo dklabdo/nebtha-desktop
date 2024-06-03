@@ -1,10 +1,10 @@
 {
-  "name": "biofyta",
-  "private": true,
-  "version": "0.0.0",
+  "name": "FytaPharm",
+  "version": "1.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build && electron-builder",
+    "build": "vite build",
+    "electron:build": "vite build && electron-builder",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
@@ -18,12 +18,66 @@
     "axios": "^1.6.8",
     "firebase": "^10.8.1",
     "graphql": "^16.8.1",
+    "qrcode.react": "^3.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-google-charts": "^4.0.1",
     "react-router-dom": "^6.22.2",
     "react-slick": "^0.30.2",
+    "socket.io-client": "^4.7.5",
     "sweetalert2": "^11.10.6",
     "sweetalert2-react-content": "^5.0.7"
+  },
+  "build": {
+    "appId": "com.FytaPharm.id",
+    "productName": "FytaPharm",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      {
+        "from": "electron",
+        "to": "app"
+      }
+    ],
+    "extraResources": [
+      {
+        "from": "src/assets",
+        "to": "resources"
+      }
+    ],
+    "dmg": {
+      "contents": [
+        {
+          "x": 130,
+          "y": 220
+        },
+        {
+          "x": 410,
+          "y": 220,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "mac": {
+      "target": [
+        "dmg",
+        "zip"
+      ]
+    },
+    "win": {
+      "target": [
+        "nsis",
+        "zip"
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ]
+    }
   },
   "devDependencies": {
     "@types/react": "^18.2.21",
